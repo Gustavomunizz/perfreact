@@ -1,16 +1,10 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useCallback, useState } from 'react'
 import { SearchResults } from '../components/searchResults'
 import styles from '../styles/home.module.css'
 
-type ResultsProps = {
-  id: number
-  price: number
-  title: string
-}
-
 export default function Home() {
   const [search, setSearch] = useState('')
-  const [results, setResults] = useState<ResultsProps[]>([])
+  const [results, setResults] = useState([])
 
   async function handleSearch(event: FormEvent) {
     event.preventDefault()
@@ -26,6 +20,10 @@ export default function Home() {
     console.log(results)
   }
 
+  const addToWishList = useCallback(async (id: number) => {
+    console.log(id)
+  }, [])
+
   return (
     <>
       <h1 className={styles.title}>Search</h1>
@@ -35,7 +33,7 @@ export default function Home() {
         <button type="submit">Buscar</button>
       </form>
 
-      <SearchResults key={results.id} results={results} />
+      <SearchResults results={results} onAddToWishList={addToWishList} />
     </>
   )
 }
